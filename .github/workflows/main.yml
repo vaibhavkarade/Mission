@@ -25,3 +25,22 @@ jobs:
         with:
           name: compiled-artifacts
           path: target/
+  scan:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          output-format: 'table'
+          output: 'trivy-fs-report.html'
+
+      - name: Upload Trivy report
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-report
+          path: trivy-fs-report.html
+

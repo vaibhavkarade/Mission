@@ -103,7 +103,7 @@ jobs:
    needs: package
    steps:
      - name: Docker login
-       run: docker login -u  ${{ secrets.DOCKERHUB_USERNAME }} -p  ${{ secrets.DOCKERHUB_PASSWORD }}  --password-stdin
+       run: docker login -u  ${{ secrets.DOCKERHUB_USERNAME }} -p --password-stdin ${{ secrets.DOCKERHUB_PASSWORD }} 
      # - name: Docker build and push
      #   run: |
      #      # Run commands to build and push Docker images

@@ -97,24 +97,24 @@ jobs:
         with:
           name: packaged-artifacts
           path: target/
-  build_and_push:
-    runs-on: self-hosted
-    needs: package
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  # build_and_push:
+  #   runs-on: self-hosted
+  #   needs: package
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
       # - name: Set up Docker Buildx
       #   uses: docker/setup-buildx-action@v3
-      - name: Docker build and push
-        run: |
-          #run commands to build and push docker images
-          docker build -t mission2 .
-          docker tag mission2 vaibhavkarade/mission2:latest
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-          docker push vaibhavkarade/mission2:latest
-        env:
-          DOCKER_CLI_ACI: 1
+      # - name: Docker build and push
+      #   run: |
+      #     #run commands to build and push docker images
+      #     docker build -t mission2 .
+      #     docker tag mission2 vaibhavkarade/mission2:latest
+      #     docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+      #     docker push vaibhavkarade/mission2:latest
+      #   env:
+      #     DOCKER_CLI_ACI: 1
 
 
       # - name: Login to Docker Hub

@@ -113,9 +113,9 @@ jobs:
       #     username: ${{ secrets.DOCKER_USERNAME }}
       #     password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # - name: Login to Docker Hub
-      #   run: |
-      #     docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Login to Docker Hub
+        run: |
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           
 
       # - name: Build and push Docker image

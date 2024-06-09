@@ -70,7 +70,7 @@ jobs:
       
 
 
-     - name: SonarQube Scan
+      - name: SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |

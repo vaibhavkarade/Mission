@@ -102,15 +102,43 @@ jobs:
    runs-on: self-hosted
    needs: package
    steps:
-     - name: Docker login
-       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }} 
-     # - name: Docker build and push
-     #   run: |
-     #      # Run commands to build and push Docker images
-     #       docker build -t mission2.
-     #       docker tag mission2 vaibhavkarade/mission2:latest
-     #       docker login -u --password-stdin ${{ secrets.DOCKERHUB_USERNAME }} -p --password-stdin ${{ secrets.DOCKERHUB_PASSWORD }}
-     #       docker push vaibhavkarade/mission2:latest    
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Download packaged artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: packaged-artifacts
+        path: target/
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Docker login
+      run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t vaibhavkarade/mission2:latest .
+        docker push vaibhavkarade/mission2:latest
+
+    - name: Deploy to container
+      run: |
+        docker run -d -p 8080:8080 --name mission vaibhavkarade/mission2:latest
+
+  # buildpush:
+  #  runs-on: self-hosted
+  #  needs: package
+  #  steps:
+  #    - name: Docker login
+  #      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }} 
+  #    # - name: Docker build and push
+  #    #   run: |
+  #    #      # Run commands to build and push Docker images
+  #    #       docker build -t mission2.
+  #    #       docker tag mission2 vaibhavkarade/mission2:latest
+  #    #       docker login -u --password-stdin ${{ secrets.DOCKERHUB_USERNAME }} -p --password-stdin ${{ secrets.DOCKERHUB_PASSWORD }}
+  #    #       docker push vaibhavkarade/mission2:latest    
   
 
 

@@ -70,10 +70,11 @@ jobs:
       
 
 
-      - name: SonarQube Scan
+     - name: SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
+          export PATH=$PATH:$PWD/sonar-scanner/bin
           sonar-scanner \
             -Dsonar.projectKey=mission \
             -Dsonar.sources=. \

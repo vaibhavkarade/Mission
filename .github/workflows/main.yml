@@ -145,7 +145,7 @@ jobs:
           #run commands to build and push docker images
           docker build -t mission2 .
           docker tag mission2 vaibhavkarade/mission2:latest
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin -p ${{ secrets.DOCKERHUB_PASSWORD }} 
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }}  -p --password-stdin ${{ secrets.DOCKERHUB_PASSWORD }} 
           docker push vaibhavkarade/mission2:latest
         env:
           DOCKER_CLI_ACI: 1

@@ -27,6 +27,7 @@ jobs:
           path: target/
   scan:
     runs-on: self-hosted
+    needs: compile
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -79,7 +80,7 @@ jobs:
       #       -Dsonar.login=${{ secrets.SONAR_TOKEN }}
   package:
     runs-on: self-hosted
-    # needs: test
+    needs: scan
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

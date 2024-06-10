@@ -128,27 +128,27 @@ jobs:
           image-ref: 'vaibhavkarade/mission2:latest'
           output-format: 'json'
           output: 'trivy-report.json'
-    - name: Convert Trivy JSON report to HTML
-      run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-pip
-          pip3 install trivy-to-html
-          trivy-to-html -i trivy-report.json -o trivy-report.html
+    # - name: Convert Trivy JSON report to HTML
+    #   run: |
+    #       sudo apt-get update
+    #       sudo apt-get install -y python3-pip
+    #       pip3 install trivy-to-html
+    #       trivy-to-html -i trivy-report.json -o trivy-report.html
 
     - name: Upload Trivy report
       uses: actions/upload-artifact@v3
       with:
           name: trivy-report
-          path: trivy-report.html
-    - name: Scan Docker image with Trivy
-      run: |
+          path: trivy-report.json
+    # - name: Scan Docker image with Trivy
+    #   run: |
        
-       trivy image --format html --output trivy-report.html vaibhavkarade/mission2:latest
-    - name: Upload Trivy report
-      uses: actions/upload-artifact@v3
-      with:
-        name: trivy-report
-        path: trivy-report.html
+    #    trivy image --format html --output trivy-report.html vaibhavkarade/mission2:latest
+    # - name: Upload Trivy report
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: trivy-report
+    #     path: trivy-report.html
     - name: push image to dockerhub
       run: |
         docker push vaibhavkarade/mission2:latest

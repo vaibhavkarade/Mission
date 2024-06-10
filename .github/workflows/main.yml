@@ -12,10 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # - name: Set up JDK 17
-      #   uses: actions/setup-java@v3
-      #   with:
-      #     java-version: '17'
+    
 
       - name: Compile
         run: mvn compile -DskipTests=true
@@ -85,10 +82,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # - name: Set up JDK 17
-      #   uses: actions/setup-java@v3
-      #   with:
-      #     java-version: '17'
+      
 
       - name: Package
         run: mvn package -DskipTests=true
@@ -128,47 +122,33 @@ jobs:
           image-ref: 'vaibhavkarade/mission2:latest'
           output-format: 'table'
           output: 'trivy-report.html'
-    # - name: Convert Trivy JSON report to HTML
-    #   run: |
-    #       sudo apt-get update
-    #       sudo apt-get install -y python3-pip
-    #       pip3 install trivy-to-html
-    #       trivy-to-html -i trivy-report.json -o trivy-report.html
+    
 
     - name: Upload Trivy report
       uses: actions/upload-artifact@v3
       with:
           name: trivy-report
           path: trivy-report.html
-    # - name: Scan Docker image with Trivy
-    #   run: |
-       
-    #    trivy image --format html --output trivy-report.html vaibhavkarade/mission2:latest
-    # - name: Upload Trivy report
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: trivy-report
-    #     path: trivy-report.html
+    
     - name: push image to dockerhub
       run: |
         docker push vaibhavkarade/mission2:latest
-    - name: Deploy to container
-      run: |
-        docker run -d -p 8080:8080 --name mission vaibhavkarade/mission2:latest
+    # - name: Deploy to container
+    #   run: |
+    #     docker run -d -p 8080:8080 --name mission vaibhavkarade/mission2:latest
+  DeployAKS:
+    runs-on: self-hosted
+    needs: buildpush
+    steps:
+     - name: Deploy to AKS
+       uses: Azure/k8s-deploy@v1
+       with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          manifests: |
+            ds.yml
+          namespace: default
 
-  # buildpush:
-  #  runs-on: self-hosted
-  #  needs: package
-  #  steps:
-  #    - name: Docker login
-  #      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }} 
-  #    # - name: Docker build and push
-  #    #   run: |
-  #    #      # Run commands to build and push Docker images
-  #    #       docker build -t mission2.
-  #    #       docker tag mission2 vaibhavkarade/mission2:latest
-  #    #       docker login -u --password-stdin ${{ secrets.DOCKERHUB_USERNAME }} -p --password-stdin ${{ secrets.DOCKERHUB_PASSWORD }}
-  #    #       docker push vaibhavkarade/mission2:latest    
+   
   
 
 

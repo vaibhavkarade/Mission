@@ -117,11 +117,22 @@ jobs:
     - name: Docker login
       run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username  "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-    - name: Build and push Docker image
+    - name: Build Docker image
       run: |
         docker build -t vaibhavkarade/mission2:latest .
+        # docker push vaibhavkarade/mission2:latest
+    - name: Scan Docker image with Trivy
+      run: |
+       # docker pull vaibhavkarade/mission2:latest
+       trivy image --format html --output trivy-report.html vaibhavkarade/mission2:latest
+    - name: Upload Trivy report
+      uses: actions/upload-artifact@v3
+      with:
+        name: trivy-report
+        path: trivy-report.html
+    - name: push image to dockerhub
+      run: |
         docker push vaibhavkarade/mission2:latest
-
     - name: Deploy to container
       run: |
         docker run -d -p 8080:8080 --name mission vaibhavkarade/mission2:latest

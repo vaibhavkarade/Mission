@@ -130,8 +130,8 @@ jobs:
           output: 'trivy-report.json'
     - name: Convert Trivy JSON report to HTML
       run: |
-          apt-get update
-          apt-get install -y python3-pip
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
           pip3 install trivy-to-html
           trivy-to-html -i trivy-report.json -o trivy-report.html
 

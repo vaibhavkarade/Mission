@@ -126,14 +126,20 @@ jobs:
       with:
           scan-type: 'image'
           image-ref: 'vaibhavkarade/mission2:latest'
-          output-format: 'table'
-          output: 'trivy-fs-report.html'
+          output-format: 'json'
+          output: 'trivy-report.json'
+    - name: Convert Trivy JSON report to HTML
+      run: |
+          apt-get update
+          apt-get install -y python3-pip
+          pip3 install trivy-to-html
+          trivy-to-html -i trivy-report.json -o trivy-report.html
 
     - name: Upload Trivy report
       uses: actions/upload-artifact@v3
       with:
           name: trivy-report
-          path: trivy-fs-report.html
+          path: trivy-report.html
     - name: Scan Docker image with Trivy
       run: |
        

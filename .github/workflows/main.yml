@@ -123,7 +123,7 @@ jobs:
         # docker push vaibhavkarade/mission2:latest
     - name: Scan Docker image with Trivy
       run: |
-       # docker pull vaibhavkarade/mission2:latest
+       
        trivy image --format html --output trivy-report.html vaibhavkarade/mission2:latest
     - name: Upload Trivy report
       uses: actions/upload-artifact@v3

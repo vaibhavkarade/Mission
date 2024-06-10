@@ -27,7 +27,7 @@ jobs:
           path: target/
   scan:
     runs-on: self-hosted
-    needs: compile
+    # needs: compile
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -46,7 +46,7 @@ jobs:
           path: trivy-fs-report.html
   sonarqube:
    runs-on: self-hosted
-   needs: compile
+   # needs: compile
    steps:
       - uses: actions/checkout@v2
         with:
@@ -81,7 +81,7 @@ jobs:
       
   package:
     runs-on: self-hosted
-    needs: sonarqube
+    # needs: sonarqube
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

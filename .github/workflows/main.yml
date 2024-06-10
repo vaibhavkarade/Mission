@@ -121,6 +121,19 @@ jobs:
       run: |
         docker build -t vaibhavkarade/mission2:latest .
         # docker push vaibhavkarade/mission2:latest
+    - name: Run Trivy scan
+      uses: aquasecurity/trivy-action@master
+      with:
+          scan-type: 'image'
+          image-ref: 'vaibhavkarade/mission2:latest'
+          output-format: 'table'
+          output: 'trivy-fs-report.html'
+
+    - name: Upload Trivy report
+      uses: actions/upload-artifact@v3
+      with:
+          name: trivy-report
+          path: trivy-fs-report.html
     - name: Scan Docker image with Trivy
       run: |
        
